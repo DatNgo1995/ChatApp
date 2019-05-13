@@ -22,10 +22,8 @@ class App extends React.Component {
     this.getDataFromDb();
   }
   componentDidMount() {
-    console.log("mounted")
     this.socket = socketIOClient (this.state.endpoint);
     this.socket.on("serverSendPost", (mess) => {
-      console.log("post message client")
       this.setState({chatMessage : [
         ...this.state.chatMessage,
         mess      

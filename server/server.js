@@ -36,9 +36,8 @@ server.use(cors());
   server.use("/", router);
 
   io.on("connection",  socket => {
-   console.log("io connected")
+   console.log("user connected")
     socket.on("postMessage", async message => {
-      console.log(message);
        mdb.collection("chat-message").insertOne(message);
       io.emit("serverSendPost", message);
     })

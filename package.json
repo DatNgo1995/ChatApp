@@ -8,7 +8,7 @@
   "scripts": {
     "start": "concurrently \"cd server && npm start --ignore public\" \"cd chat-app && npm start\" \"mongod \"",
     "build": "cd server && npm start --ignore public",
-    "heroku-postbuild": "cd client && npm install && npm start"
+    "heroku-postbuild": "cd chat-app && npm install && npm start"
   },
   "repository": {
     "type": "git",

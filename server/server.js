@@ -8,8 +8,8 @@ const socketIo = require("socket.io");
 const server = express();
 const ioServer = require('http').createServer(server);
 const io = socketIo (ioServer);
-io.set('origins', 'http://localhost:3000');
-ioServer.listen(8080, () => console.log("io test"));
+
+ioServer.listen(config.port, () => console.log("io test"));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(cors());
@@ -26,13 +26,7 @@ server.use(cors());
     let content = await mdb.collection("chat-message").find().toArray();
     res.send(content);
   });
-  router.post("/getData", cors(), async (req, res) => {
-    console.log(req.body)
-    let update = await mdb.collection("chat-message").insertOne(req.body);
-    res.send(update);
-
-
-  });
+ 
   server.use("/", router);
 
   io.on("connection",  socket => {

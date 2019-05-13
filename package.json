@@ -1,0 +1,26 @@
+{
+  "name": "chatapp-withnode",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "start": "concurrently \"cd server && npm start --ignore public\" \"cd chat-app && npm start\" \"mongod \"",
+    "build": "cd server && npm start --ignore public",
+    "heroku-postbuild": "cd client && npm install && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DatNgo1995/ChatApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DatNgo1995/ChatApp/issues"
+  },
+  "homepage": "https://github.com/DatNgo1995/ChatApp#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
+}

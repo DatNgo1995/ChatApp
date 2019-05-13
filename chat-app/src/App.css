@@ -1,0 +1,17 @@
+
+
+.sign-in {
+  max-width: 300px;
+  margin: auto;
+}
+.chat-input {
+  max-width: 1000px;
+
+}
+.chat-message {
+  max-width: 500px;
+  background: #ebebeb none repeat scroll 0 0;
+  color: #646464;
+  border-radius: 20px;
+  padding: 10px 20px;
+}

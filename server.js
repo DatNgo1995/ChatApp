@@ -3,16 +3,33 @@ import config from './config';
 import { MongoClient } from 'mongodb';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+const path = require('path');
 const socketIo = require("socket.io");
 
 const server = express();
 const ioServer = require('http').createServer(server);
 const io = socketIo (ioServer);
 
-ioServer.listen(config.port, () => console.log("io test"));
+
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(cors());
+//Static file declaration
+server.use(express.static(path.join(__dirname, 'chat-app/build')));
+
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  server.use(express.static(path.join(__dirname, 'chat-app/build')));
+  //
+  server.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'chat-app/build/index.html'));
+  })
+}
+
+//build mode
+server.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/chat-app/public/index.html'));
+})
 
   let mdb;
   MongoClient.connect(config.mongodbUri, (err, db) => {
@@ -39,3 +56,4 @@ server.use(cors());
       console.log("user disconnected");
     });
     });
+    ioServer.listen(config.port, () => console.log("io test"));

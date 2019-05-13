@@ -1,26 +1,38 @@
 {
-  "name": "chatapp-withnode",
+  "name": "fulljs",
   "version": "1.0.0",
-  "description": "",
-  "engines": {
-    "node": "10.x"
-  },
+  "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
+  "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd server && npm start --ignore public\" \"cd chat-app && npm start\" \"mongod \"",
-    "build": "cd server && npm start --ignore public",
-    "heroku-postbuild": "cd chat-app && npm install && npm run build"
+    "start": "node server.js",
+    "server": "./node_modules/.bin/babel-node server.js",
+    "build": "cd chat-app/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DatNgo1995/ChatApp.git"
+    "url": "git+https://github.com/jscomplete/learn-fullstack-javascript.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/DatNgo1995/ChatApp/issues"
+    "url": "https://github.com/jscomplete/learn-fullstack-javascript/issues"
   },
-  "homepage": "https://github.com/DatNgo1995/ChatApp#readme",
+  "homepage": "https://github.com/jscomplete/learn-fullstack-javascript#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "cors": "^2.8.5",
+    "express": "^4.14.0",
+    "json-loader": "^0.5.4",
+    "mongodb": "^2.2.10",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.0.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.17.0",
+    "nodemon": "^1.11.0",
+    "webpack": "4.29.6"
   }
 }

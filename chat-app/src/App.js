@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      endpoint: "localhost:8080",
+      endpoint: "/",
       currentPage: 'sign-in',
       name: '',
       chatMessage: []
@@ -44,7 +44,7 @@ class App extends React.Component {
    this.postMessage(newContent)
   }
   getDataFromDb = () => {
-    fetch("http://localhost:8080/getData")
+    fetch("/getData")
       .then(data => data.json())
       .then(res => this.setState({ chatMessage: res }));
   };

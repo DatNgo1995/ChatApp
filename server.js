@@ -1,15 +1,17 @@
-import express from 'express';
-import config from './config';
-import { MongoClient } from 'mongodb';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+const express = require('express');
+const MongoClient = require('mongodb').MongoClient;
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const path = require('path');
 const socketIo = require("socket.io");
 
 const server = express();
 const ioServer = require('http').createServer(server);
 const io = socketIo (ioServer);
-
+const mongodbUri = 'mongodb://localhost:27017/chat-app';
+const env = process.env;
+const   port = env.PORT || 8080;
+const  host =  env.HOST || '0.0.0.0';
 
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
@@ -32,7 +34,7 @@ server.get('*', (req, res) => {
 })
 
   let mdb;
-  MongoClient.connect(config.mongodbUri, (err, db) => {
+  MongoClient.connect(mongodbUri, (err, db) => {
       console.log("Db connected")
     mdb = db;
   });
@@ -56,4 +58,4 @@ server.get('*', (req, res) => {
       console.log("user disconnected");
     });
     });
-    ioServer.listen(config.port, () => console.log("io test"));
+    ioServer.listen(port, () => console.log("io test"));

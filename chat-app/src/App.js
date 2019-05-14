@@ -1,65 +1,63 @@
-import React from 'react';
-import { ChatBox } from './components/ChatBox';
-import  SignIn  from './components/SignIn';
-import socketIOClient  from "socket.io-client";
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-import './App.css';
+import React from "react";
+import { ChatBox } from "./components/ChatBox";
+import SignIn from "./components/SignIn";
+import socketIOClient from "socket.io-client";
+// eslint-disable-next-line
+import Bootstrap from "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       endpoint: "/",
-      currentPage: 'sign-in',
-      name: '',
+      currentPage: "sign-in",
+      name: "",
       chatMessage: []
-   
-
     };
-}
-  
+  }
+
   componentWillMount() {
     this.getDataFromDb();
   }
   componentDidMount() {
-    this.socket = socketIOClient (this.state.endpoint);
-    this.socket.on("serverSendPost", (mess) => {
-      this.setState({chatMessage : [
-        ...this.state.chatMessage,
-        mess      
-      ]});
-    })
+    this.socket = socketIOClient(this.state.endpoint);
+    this.socket.on("serverSendPost", mess => {
+      this.setState({ chatMessage: [...this.state.chatMessage, mess] });
+    });
   }
   moveToChatBox = () => {
-    this.setState({ currentPage: 'chat-box' });
-  }
-  setName = (name) => {
+    this.setState({ currentPage: "chat-box" });
+  };
+  setName = name => {
     this.setState({ name: name });
-  }
-  updateChatMessage = (newMessage) => {
-    let newContent= {
+  };
+  updateChatMessage = newMessage => {
+    let newContent = {
       name: this.state.name,
       content: newMessage
-    }
-   this.postMessage(newContent)
-  }
+    };
+    this.postMessage(newContent);
+  };
   getDataFromDb = () => {
     fetch("/getData")
       .then(data => data.json())
       .then(res => this.setState({ chatMessage: res }));
   };
-  postMessage = (message) => {
- 
+  postMessage = message => {
     this.socket.emit("postMessage", message);
-    
-  }
+  };
   render() {
     return (
       <div className="App">
-        {this.state.currentPage === 'sign-in' ? (
-          <SignIn moveToChatBox={this.moveToChatBox} setName = {this.setName} />
+        {this.state.currentPage === "sign-in" ? (
+          <SignIn moveToChatBox={this.moveToChatBox} setName={this.setName} />
         ) : (
-          <ChatBox name={this.state.name} chatMessage = {this.state.chatMessage} updateChatMessage = {this.updateChatMessage}/>
+          <ChatBox
+            name={this.state.name}
+            chatMessage={this.state.chatMessage}
+            updateChatMessage={this.updateChatMessage}
+          />
         )}
       </div>
     );

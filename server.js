@@ -8,7 +8,7 @@ const socketIo = require("socket.io");
 const server = express();
 const ioServer = require('http').createServer(server);
 const io = socketIo (ioServer);
-const mongodbUri = 'mongodb://heroku_x9d3p4j1:Dat12345@ds01316.mlab.com:1316/food';
+const mongodbUri = 'mongodb://test12345:test12345@ds121455.mlab.com:21455/heroku_x9d3p4j1';
 const env = process.env;
 const   port = env.PORT || 8080;
 const  host =  env.HOST || '0.0.0.0';
@@ -23,19 +23,20 @@ server.use(express.static(path.join(__dirname, 'chat-app/build')));
 if(process.env.NODE_ENV === 'production') {
   server.use(express.static(path.join(__dirname, 'chat-app/build')));
   //
-  server.get('*', (req, res) => {
+  server.get('/', (req, res) => {
     res.sendfile(path.join(__dirname = 'chat-app/build/index.html'));
   })
 }
 
 //build mode
-server.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/chat-app/build/index.html'));
+server.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/chat-app/public/index.html'));
 })
 
   let mdb;
   MongoClient.connect(mongodbUri, (err, db) => {
-      console.log("Db connected")
+      console.log("Db connected");
+      console.log(err)
     mdb = db;
   });
 
@@ -43,6 +44,7 @@ server.get('*', (req, res) => {
 
   router.get("/getData", async (req, res) => {
     let content = await mdb.collection("chat-message").find().toArray();
+    console.log(content)
     res.send(content);
   });
  

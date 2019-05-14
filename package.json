@@ -4,9 +4,7 @@
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
-    "build": "npm run clean && npm run build-babel",
-    "start": "npm run build && node ./build/index.js",
+    "start": "babel -d ./build index.js -s && node ./build/index.js",
     "server": "./node_modules/.bin/babel-node server.js",
     "heroku-postbuild": "cd chat-app && npm install && npm run build"
     

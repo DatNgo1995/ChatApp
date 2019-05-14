@@ -28,7 +28,7 @@ if(process.env.NODE_ENV === 'production') {
 
 //build mode
 server.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/chat-app/public/index.html'));
+  res.sendFile(path.join(__dirname+'/chat-app/build/index.html'));
 })
 
   let mdb;

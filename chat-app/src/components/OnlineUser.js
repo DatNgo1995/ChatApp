@@ -4,12 +4,16 @@ export class OnlineUser extends Component {
 
     render() {
         return (
-            <div class="online-users">
+            <div className="chat-message col-4 mt-5">
+                <h1>User List</h1>
+                <ul>
                 {this.props.userList.map(member => (
                 <div>
-                    {member.user}: {member.status}
+                   <li> {member.user}: {member.status} </li>
                 </div>
                 ))}
+                </ul>
+                
             </div>
         )
     }

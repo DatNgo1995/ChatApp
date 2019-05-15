@@ -7,12 +7,20 @@ export class ChatBox extends React.Component {
   };
   render() {
     return (
-      <div className="chat-box">
-        <div className="messages m-5">
+      <div className="chat-box col-8">
+        <div className="messages m-5 d-flex flex-column">
           {this.props.chatMessage.map(message => (
-            <div className="chat-message mb-3">
+            message.name === this.props.name ?
+              <div className="chat-message align-self-end d-block mb-3">
+               {message.content}
+            </div>
+              :
+              <div className="chat-message mb-3">
               {message.name}: {message.content}
             </div>
+            
+            
+           
           ))}
         </div>
         <Form onSubmit={e => this.onSubmit(e)} className="chat-input m-5">

@@ -57,14 +57,14 @@ class App extends React.Component {
         {this.state.currentPage === "sign-in" ? (
           <SignIn moveToChatBox={this.moveToChatBox} setName={this.setName} />
         ) : (
-          <React.Fragment>
-          <ChatBox
+          <div className="row">
+          <ChatBox 
             name={this.state.name}
             chatMessage={this.state.chatMessage}
             updateChatMessage={this.updateChatMessage}
           />
-          <OnlineUser userList = {this.state.userList}/>
-          </React.Fragment>
+          <OnlineUser  userList = {this.state.userList}/>
+          </div>
         )}
       </div>
     );

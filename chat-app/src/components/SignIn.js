@@ -12,7 +12,7 @@ class SignIn extends Component {
       this.props.moveToChatBox();
     }
     else {
-      this.setState({error: "Name cannot be null!"})
+      this.setState({error: "Name cannot be empty!"})
     }
     
     

@@ -1,5 +1,6 @@
 import React from "react";
 import { ChatBox } from "./components/ChatBox";
+import { OnlineUser } from "./components/OnlineUser";
 import SignIn from "./components/SignIn";
 import socketIOClient from "socket.io-client";
 // eslint-disable-next-line
@@ -13,7 +14,8 @@ class App extends React.Component {
       endpoint: "/",
       currentPage: "sign-in",
       name: "",
-      chatMessage: []
+      chatMessage: [],
+      userList: []
     };
   }
 
@@ -25,17 +27,19 @@ class App extends React.Component {
     this.socket.on("serverSendPost", mess => {
       this.setState({ chatMessage: [...this.state.chatMessage, mess] });
     });
+    this.socket.on("updateOnline", onlineList => this.setState({userList: onlineList}));
   }
   moveToChatBox = () => {
+    this.socket.emit("online" , this.state.name);
     this.setState({ currentPage: "chat-box" });
   };
   setName = name => {
-    this.setState({ name: name });
+    this.setState({ name: name[0].toUpperCase() + name.slice(1) });
   };
   updateChatMessage = newMessage => {
     let newContent = {
       name: this.state.name,
-      content: newMessage
+      content: newMessage[0].toUpperCase() + newMessage.slice(1)
     };
     this.postMessage(newContent);
   };
@@ -53,11 +57,14 @@ class App extends React.Component {
         {this.state.currentPage === "sign-in" ? (
           <SignIn moveToChatBox={this.moveToChatBox} setName={this.setName} />
         ) : (
+          <React.Fragment>
           <ChatBox
             name={this.state.name}
             chatMessage={this.state.chatMessage}
             updateChatMessage={this.updateChatMessage}
           />
+          <OnlineUser userList = {this.state.userList}/>
+          </React.Fragment>
         )}
       </div>
     );

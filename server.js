@@ -52,12 +52,43 @@ server.use("/", router);
 
 io.on("connection", socket => {
   console.log("user connected");
+  let name;
+  socket.on("online", async newUserName => {
+    name = newUserName;
+    let userList =  await mdb
+    .collection("users")
+    .find()
+    .toArray();
+    let isNewUser = !userList.some(users => users.user === newUserName);
+    if (isNewUser) await mdb.collection("users").insertOne({
+      user:name,
+      status: "online"
+    })
+    else await mdb.collection("users").updateOne({user:newUserName},{ $set:{
+      status: "online"
+    }
+    })
+    let onlineList = await mdb
+    .collection("users")
+    .find()
+    .toArray();
+    socket.emit("updateOnline", onlineList);
+  })
   socket.on("postMessage", async message => {
     mdb.collection("chat-message").insertOne(message);
     io.emit("serverSendPost", message);
   });
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
     console.log("user disconnected");
+     await mdb.collection("users").updateOne({user:name},{ $set:{
+      status: "offline"
+    }
+    })
+    let onlineList = await mdb
+    .collection("users")
+    .find()
+    .toArray();
+    socket.emit("updateOnline", onlineList);
   });
 });
 ioServer.listen(port, () =>

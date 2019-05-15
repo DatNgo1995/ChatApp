@@ -2,13 +2,24 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 
 class SignIn extends Component {
-  onSubmit = () => {
-    this.props.moveToChatBox();
-    this.props.setName(this.name.value);
+  state = {
+    error: ""
+  }
+  onSubmit = async (e) => {
+    e.preventDefault();
+    if(this.name.value !== ""){
+      await this.props.setName(this.name.value);
+      this.props.moveToChatBox();
+    }
+    else {
+      this.setState({error: "Name cannot be null!"})
+    }
+    
+    
   };
   render() {
     return (
-      <Form className="sign-in mt-5" onSubmit={this.onSubmit}>
+      <Form className="sign-in mt-5" onSubmit={e => this.onSubmit(e)}>
         <Form.Group>
           <Form.Label className="float-left">Enter name:</Form.Label>
           <Form.Control
@@ -17,6 +28,7 @@ class SignIn extends Component {
             ref={name => (this.name = name)}
           />
         </Form.Group>
+        <label>{this.state.error}</label>
         <Button variant="success" className="float-right" type="submit">
           Enter Chat
         </Button>

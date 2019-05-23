@@ -55,43 +55,64 @@ io.on("connection", socket => {
   let name;
   socket.on("online", async newUserName => {
     name = newUserName;
-    let userList =  await mdb
-    .collection("users")
-    .find()
-    .toArray();
+    let userList = await mdb
+      .collection("users")
+      .find()
+      .toArray();
     let isNewUser = !userList.some(users => users.user === newUserName);
-    if (isNewUser) await mdb.collection("users").insertOne({
-      user:name,
-      status: "online"
-    })
-    else await mdb.collection("users").updateOne({user:newUserName},{ $set:{
-      status: "online"
-    }
-    })
+    if (isNewUser)
+      await mdb.collection("users").insertOne({
+        user: name,
+        status: "online"
+      });
+    else
+      await mdb.collection("users").updateOne(
+        { user: newUserName },
+        {
+          $set: {
+            status: "online"
+          }
+        }
+      );
     let onlineList = await mdb
-    .collection("users")
-    .find()
-    .toArray();
-    socket.emit("updateOnline", onlineList);
-  })
+      .collection("users")
+      .find()
+      .toArray();
+    io.emit("updateOnline", onlineList);
+  });
   socket.on("postMessage", async message => {
     await mdb.collection("chat-message").insertOne(message);
     io.emit("serverSendPost", message);
   });
+  socket.on("editMessage", async message => {
+    await mdb.collection("chat-message").updateOne(
+      { id: message.id },
+      {
+        $set: {
+          content: message.content
+        }
+      }
+    );
+    io.emit("serverEditMessage", message)
+  });
   socket.on("deleteMessage", async id => {
-    await mdb.collection("chat-message").deleteOne({id});
-    io.emit("serverdDeletePost",id)
-  })
+    await mdb.collection("chat-message").deleteOne({ id });
+    io.emit("serverdDeletePost", id);
+  });
   socket.on("disconnect", async () => {
     console.log("user disconnected");
-     await mdb.collection("users").updateOne({user:name},{ $set:{
-      status: "offline"
-    }
-    })
+    await mdb.collection("users").updateOne(
+      { user: name },
+      {
+        $set: {
+          status: "offline"
+        }
+      }
+    );
     let onlineList = await mdb
-    .collection("users")
-    .find()
-    .toArray();
+      .collection("users")
+      .find()
+      .toArray();
     socket.emit("updateOnline", onlineList);
   });
 });

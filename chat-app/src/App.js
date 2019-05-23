@@ -25,26 +25,45 @@ class App extends React.Component {
     this.socket.on("serverSendPost", mess => {
       this.setState({ chatMessage: [...this.state.chatMessage, mess] });
     });
-    this.socket.on("serverdDeletePost", id  => {
-      let newState = this.state.chatMessage.filter(message =>
-        message.id !== id);
-        this.setState({ chatMessage: newState})
-    })
-    this.socket.on("updateOnline", onlineList => this.setState({userList: onlineList}));
+    this.socket.on("serverdDeletePost", id => {
+      let newState = this.state.chatMessage.filter(
+        message => message.id !== id
+      );
+      this.setState(() => {
+        return { chatMessage: newState };
+      });
+    });
+    this.socket.on("serverEditMessage", editMessage => {
+      let newState = this.state.chatMessage.map(message =>
+        message.id === editMessage.id
+          ? { ...message, content: editMessage.content }
+          : message
+      );
+      this.setState(() => {
+        return { chatMessage: newState };
+      });
+    });
+    this.socket.on("updateOnline", onlineList => {
+      this.setState(() => {
+        return { userList: onlineList };
+      });
+    });
   }
   moveToChatBox = () => {
-    this.socket.emit("online" , this.state.name);
+    this.socket.emit("online", this.state.name);
     this.setState({ currentPage: "chat-box" });
   };
   setName = name => {
     this.setState({ name: name[0].toUpperCase() + name.slice(1) });
   };
   updateChatMessage = newMessage => {
-    let id = this.state.chatMessage.length > 0 ? 
-    this.state.chatMessage[this.state.chatMessage.length-1].id + 1 : 0;
+    let id =
+      this.state.chatMessage.length > 0
+        ? this.state.chatMessage[this.state.chatMessage.length - 1].id + 1
+        : 0;
     let newContent = {
       name: this.state.name,
-      id :id,
+      id: id,
       content: newMessage[0].toUpperCase() + newMessage.slice(1)
     };
     this.postMessage(newContent);
@@ -57,9 +76,12 @@ class App extends React.Component {
   postMessage = message => {
     this.socket.emit("postMessage", message);
   };
+  editMessage = message => {
+    this.socket.emit("editMessage", message);
+  };
   deleteMessage = id => {
-    this.socket.emit("deleteMessage", id)
-  }
+    this.socket.emit("deleteMessage", id);
+  };
   render() {
     return (
       <div className="App">
@@ -67,13 +89,14 @@ class App extends React.Component {
           <SignIn moveToChatBox={this.moveToChatBox} setName={this.setName} />
         ) : (
           <div className="row">
-          <ChatBox 
-            name={this.state.name}
-            chatMessage={this.state.chatMessage}
-            updateChatMessage={this.updateChatMessage}
-            deleteMessage = {this.deleteMessage}
-          />
-          <OnlineUser  userList = {this.state.userList}/>
+            <ChatBox
+              name={this.state.name}
+              chatMessage={this.state.chatMessage}
+              updateChatMessage={this.updateChatMessage}
+              deleteMessage={this.deleteMessage}
+              editMessage={this.editMessage}
+            />
+            <OnlineUser userList={this.state.userList} />
           </div>
         )}
       </div>

@@ -75,9 +75,13 @@ io.on("connection", socket => {
     socket.emit("updateOnline", onlineList);
   })
   socket.on("postMessage", async message => {
-    mdb.collection("chat-message").insertOne(message);
+    await mdb.collection("chat-message").insertOne(message);
     io.emit("serverSendPost", message);
   });
+  socket.on("deleteMessage", async id => {
+    await mdb.collection("chat-message").deleteOne({id});
+    io.emit("serverdDeletePost",id)
+  })
   socket.on("disconnect", async () => {
     console.log("user disconnected");
      await mdb.collection("users").updateOne({user:name},{ $set:{

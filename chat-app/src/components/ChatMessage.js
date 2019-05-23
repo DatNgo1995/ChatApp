@@ -32,9 +32,9 @@ const ChatMessage = ({ isUserMessage, id, name, content, deleteMessage, editMess
           <div className="chat-message d-flex flex-column align-self-end d-block mb-3">
             {content}
             <div className="align-self-end edit-content">
-              <label className="m-1" onClick={() => setMode(true)}>
+              <label className="mt-1 mx-3" onClick={() => setMode(true)}>
                 {" "}
-                edit |
+                edit 
               </label>
               <label onClick={() => deleteMessage(id)}> delete</label>
             </div>

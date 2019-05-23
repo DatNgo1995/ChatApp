@@ -1,4 +1,5 @@
 import React from "react";
+import ChatMessage from "./ChatMessage"
 import { Form, Button,InputGroup, FormControl } from "react-bootstrap";
 export class ChatBox extends React.Component {
   onSubmit = e => {
@@ -9,16 +10,8 @@ export class ChatBox extends React.Component {
     return (
       <div className="chat-box col-8">
         <div className="messages m-5 d-flex flex-column">
-          {this.props.chatMessage.map(message => (
-            message.name === this.props.name ?
-              <div className="chat-message align-self-end d-block mb-3">
-               {message.content}
-            </div>
-              :
-              <div className="chat-message mb-3">
-              {message.name}: {message.content}
-            </div>
-            
+          {this.props.chatMessage.map((message,i) => (
+            <ChatMessage key={i} isUserMessage = {this.props.name === message.name} {...message} deleteMessage = {this.props.deleteMessage}/>
             
            
           ))}

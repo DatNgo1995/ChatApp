@@ -19,14 +19,17 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.getDataFromDb();
-  }
   componentDidMount() {
+    this.getDataFromDb();
     this.socket = socketIOClient(this.state.endpoint);
     this.socket.on("serverSendPost", mess => {
       this.setState({ chatMessage: [...this.state.chatMessage, mess] });
     });
+    this.socket.on("serverdDeletePost", id  => {
+      let newState = this.state.chatMessage.filter(message =>
+        message.id !== id);
+        this.setState({ chatMessage: newState})
+    })
     this.socket.on("updateOnline", onlineList => this.setState({userList: onlineList}));
   }
   moveToChatBox = () => {
@@ -37,8 +40,11 @@ class App extends React.Component {
     this.setState({ name: name[0].toUpperCase() + name.slice(1) });
   };
   updateChatMessage = newMessage => {
+    let id = this.state.chatMessage.length > 0 ? 
+    this.state.chatMessage[this.state.chatMessage.length-1].id + 1 : 0;
     let newContent = {
       name: this.state.name,
+      id :id,
       content: newMessage[0].toUpperCase() + newMessage.slice(1)
     };
     this.postMessage(newContent);
@@ -51,6 +57,9 @@ class App extends React.Component {
   postMessage = message => {
     this.socket.emit("postMessage", message);
   };
+  deleteMessage = id => {
+    this.socket.emit("deleteMessage", id)
+  }
   render() {
     return (
       <div className="App">
@@ -62,6 +71,7 @@ class App extends React.Component {
             name={this.state.name}
             chatMessage={this.state.chatMessage}
             updateChatMessage={this.updateChatMessage}
+            deleteMessage = {this.deleteMessage}
           />
           <OnlineUser  userList = {this.state.userList}/>
           </div>

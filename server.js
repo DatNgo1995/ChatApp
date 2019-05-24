@@ -26,11 +26,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-//build mode
-server.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/chat-app/public/index.html"));
-});
-
 let mdb;
 MongoClient.connect(mongodbUri, (err, db) => {
   console.log("Db connected");

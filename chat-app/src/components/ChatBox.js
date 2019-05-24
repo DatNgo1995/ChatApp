@@ -4,7 +4,8 @@ import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
 export class ChatBox extends React.Component {
   onSubmit = e => {
     e.preventDefault();
-    this.props.updateChatMessage(this.message.value);
+    if (this.message.value) this.props.updateChatMessage(this.message.value);
+    e.target[0].value = "";
   };
   render() {
     return (

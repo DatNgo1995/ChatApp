@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
-const ChatMessage = ({ isUserMessage, id, name, content, deleteMessage, editMessage }) => {
+const ChatMessage = ({ isUserMessage, id, name, content, date, deleteMessage, editMessage }) => {
   const [mode, setMode] = useState(false);
     let message = useRef(null);
     const onSubmit = (e) => {
@@ -30,8 +30,9 @@ const ChatMessage = ({ isUserMessage, id, name, content, deleteMessage, editMess
           </Form>
         ) : (
           <div className="chat-message d-flex flex-column align-self-end d-block mb-3">
-            {content}
+            {content} 
             <div className="align-self-end edit-content">
+                <span className="message-date">{date}</span>
               <label className="mt-1 mx-3" onClick={() => setMode(true)}>
                 {" "}
                 edit 
@@ -42,7 +43,8 @@ const ChatMessage = ({ isUserMessage, id, name, content, deleteMessage, editMess
         )
       ) : (
         <div className="chat-message d-flex flex-column mb-3">
-          {name}: {content}
+          <p>{name}: {content} </p>
+          <p className="message-date"> {date} </p>
         </div>
       )}
     </React.Fragment>

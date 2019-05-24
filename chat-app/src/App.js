@@ -64,6 +64,7 @@ class App extends React.Component {
     let newContent = {
       name: this.state.name,
       id: id,
+      date: new Date().toISOString(),
       content: newMessage[0].toUpperCase() + newMessage.slice(1)
     };
     this.postMessage(newContent);

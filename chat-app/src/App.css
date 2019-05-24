@@ -26,3 +26,7 @@
   color: #5555ef;
   text-decoration: underline;
 }
+.message-date {
+  font-size: 0.8rem;
+  color: #7d7d7d;
+}

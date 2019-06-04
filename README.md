@@ -8,20 +8,37 @@ This is an application that allows users to join a common chat room, post and re
 
 ## Installation and Local Development
 
-clone this project from github
+Clone this project from Github
 
 ```sh
 git clone https://github.com/DatNgo1995/ChatApp.git
 ```
 
-Go to the local directory and install server and client with the commands
+Go to the local directory and install with the following commands.
+For server side:
 
 ```sh
+cd ChatApp
 npm install
 npm start
+```
+
+For client side:
+```sh
 cd chat-app
 npm install
 npm start
 ```
 
 Client runs at localhost:3000.
+
+The application uses mLab for MongoDB database due to the limitation of a free Heroku account. However, Ideally, for local deployment, local MongoDB can be used. 
+To setup MongoDB, create new database. In a new terminal, start MongoDB by typing
+```sh
+mongod
+```
+By default, MongoDB server starts at port `27017`.
+Asuming the database name is `chat-app`. In file `server.js`, at line 11, change the value of variable `mongodbUri` to:
+ ```sh
+mongodb://localhost:27017/chat-app
+```

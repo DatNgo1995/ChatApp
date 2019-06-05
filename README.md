@@ -38,7 +38,7 @@ To setup MongoDB, create new database. In a new terminal, start MongoDB by typin
 mongod
 ```
 By default, MongoDB server starts at port `27017`.
-Assuming the database name is `chat-app`, in file `dbConnect.js`, at line 3, change the value of variable `mongodbUri` to:
+Assuming the database name is `chat-app`, in file `.env`, at line 1, change the value of variable `MONGO_URI` to:
  ```sh
 mongodb://localhost:27017/chat-app
 ```

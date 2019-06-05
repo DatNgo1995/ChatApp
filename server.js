@@ -58,6 +58,22 @@ io.on("connection", socket => {
       .toArray());
     io.emit("updateOnline", onlineList);
   });
+  socket.on("disconnect", async () => {
+    console.log("user disconnected");
+    await dbAction(mdb => mdb.collection("users").updateOne(
+      { user: name },
+      {
+        $set: {
+          status: "offline"
+        }
+      }
+    ));
+    let onlineList = await dbAction(mdb => mdb
+      .collection("users")
+      .find()
+      .toArray());
+    socket.emit("updateOnline", onlineList);
+  });
   socket.on("postMessage", async message => {
     const uuidv1 = require('uuid/v1')();
 
@@ -79,22 +95,7 @@ io.on("connection", socket => {
     await dbAction(mdb => mdb.collection("chat-message").deleteOne({ id }));
     io.emit("serverdDeletePost", id);
   });
-  socket.on("disconnect", async () => {
-    console.log("user disconnected");
-    await dbAction(mdb => mdb.collection("users").updateOne(
-      { user: name },
-      {
-        $set: {
-          status: "offline"
-        }
-      }
-    ));
-    let onlineList = await dbAction(mdb => mdb
-      .collection("users")
-      .find()
-      .toArray());
-    socket.emit("updateOnline", onlineList);
-  });
+  
 });
 ioServer.listen(port, () =>
   console.log("Server connected with IO Socket available")

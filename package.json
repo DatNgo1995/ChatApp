@@ -19,6 +19,7 @@
   "homepage": "https://datngo-chat-app.herokuapp.com/",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "express": "^4.14.0",
     "json-loader": "^0.5.4",
     "mongodb": "^2.2.10",

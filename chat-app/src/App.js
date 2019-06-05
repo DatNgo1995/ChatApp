@@ -57,13 +57,9 @@ class App extends React.Component {
     this.setState({ name: name[0].toUpperCase() + name.slice(1) });
   };
   updateChatMessage = newMessage => {
-    let id =
-      this.state.chatMessage.length > 0
-        ? this.state.chatMessage[this.state.chatMessage.length - 1].id + 1
-        : 0;
+ 
     let newContent = {
       name: this.state.name,
-      id: id,
       date: new Date().toISOString(),
       content: newMessage[0].toUpperCase() + newMessage.slice(1)
     };

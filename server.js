@@ -30,7 +30,7 @@ server.use("/", router);
 
 io.on("connection", socket => {
   console.log("user connected");
-  let name;
+  let name = null;
   socket.on("online", async newUserName => {
     name = newUserName;
     const  userList = await dbAction(mdb => mdb
@@ -59,7 +59,9 @@ io.on("connection", socket => {
     io.emit("updateOnline", onlineList);
   });
   socket.on("postMessage", async message => {
-    await dbAction(mdb => mdb.collection("chat-message").insertOne(message));
+    const uuidv1 = require('uuid/v1')();
+
+    await dbAction(mdb => mdb.collection("chat-message").insertOne({...message, id: uuidv1}));
     io.emit("serverSendPost", message);
   });
   socket.on("editMessage", async message => {

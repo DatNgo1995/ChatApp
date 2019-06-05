@@ -33,11 +33,11 @@ io.on("connection", socket => {
   let name;
   socket.on("online", async newUserName => {
     name = newUserName;
-    let userList = await dbAction(mdb => mdb
+    const  userList = await dbAction(mdb => mdb
       .collection("users")
       .find()
       .toArray());
-    let isNewUser = !userList.some(users => users.user === newUserName);
+      const  isNewUser = !userList.some(users => users.user === newUserName);
     if (isNewUser)
       await dbAction(mdb => mdb.collection("users").insertOne({
         user: name,
@@ -52,7 +52,7 @@ io.on("connection", socket => {
           }
         }
       ));
-    let onlineList = await dbAction(mdb => mdb
+      const  onlineList = await dbAction(mdb => mdb
       .collection("users")
       .find()
       .toArray());

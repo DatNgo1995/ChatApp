@@ -3,6 +3,7 @@ const MongoClient = require("mongodb").MongoClient;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+const router = require("./router");
 const socketIo = require("socket.io");
 const server = express();
 const ioServer = require("http").createServer(server);
@@ -33,15 +34,6 @@ MongoClient.connect(mongodbUri, (err, db) => {
   mdb = db;
 });
 
-const router = express.Router();
-
-router.get("/getData", async (req, res) => {
-  let content = await mdb
-    .collection("chat-message")
-    .find()
-    .toArray();
-  res.send(content);
-});
 
 server.use("/", router);
 

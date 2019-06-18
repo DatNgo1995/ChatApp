@@ -1,41 +1,47 @@
 import React, { useState, useRef } from "react";
 import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
-const ChatMessage = ({ isUserMessage, id, name, content, date, deleteMessage, editMessage }) => {
+const ChatMessage = ({
+  isUserMessage,
+  id,
+  name,
+  content,
+  date,
+  deleteMessage,
+  editMessage
+}) => {
   const [mode, setMode] = useState(false);
-    let message = useRef(null);
-    const onSubmit = (e) => {
-        e.preventDefault();
-        editMessage({id: id,content: message.current.value});
-        setMode(false);
-    }
+  let message = useRef(null);
+  const onSubmit = e => {
+    e.preventDefault();
+    editMessage({ id: id, content: message.current.value });
+    setMode(false);
+  };
   return (
     <React.Fragment>
       {isUserMessage ? (
         mode ? (
-          <Form onSubmit={e => onSubmit(e)} className="chat-message align-self-end mb-3">
+          <Form
+            onSubmit={e => onSubmit(e)}
+            className="chat-message align-self-end mb-3"
+          >
             <InputGroup>
-              <FormControl
-                defaultValue = {content}
-                type="text"
-                ref={message}
-              />
-                <Button variant="danger" onClick ={() => setMode(false)}>
-                  Cancel
-                </Button>
-                <Button variant="success" type="submit">
-                  Enter
-                </Button>
-            
+              <FormControl defaultValue={content} type="text" ref={message} />
+              <Button variant="danger" onClick={() => setMode(false)}>
+                Cancel
+              </Button>
+              <Button variant="success" type="submit">
+                Enter
+              </Button>
             </InputGroup>
           </Form>
         ) : (
           <div className="chat-message d-flex flex-column align-self-end d-block mb-3">
-            {content} 
+            {content}
             <div className="align-self-end edit-content">
-                <span className="message-date">{date}</span>
+              <span className="message-date">{date}</span>
               <label className="mt-1 mx-3" onClick={() => setMode(true)}>
                 {" "}
-                edit 
+                edit
               </label>
               <label onClick={() => deleteMessage(id)}> delete</label>
             </div>
@@ -43,7 +49,9 @@ const ChatMessage = ({ isUserMessage, id, name, content, date, deleteMessage, ed
         )
       ) : (
         <div className="chat-message d-flex flex-column mb-3">
-          <p>{name}: {content} </p>
+          <p>
+            {name}: {content}{" "}
+          </p>
           <p className="message-date"> {date} </p>
         </div>
       )}

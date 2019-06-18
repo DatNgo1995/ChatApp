@@ -1,5 +1,5 @@
 import C from '../constants';
-
+import { combineReducers } from 'redux'
 export const messages = (state=[],action) => {
     switch (action.type) {
         case C.POST_MESSAGE:
@@ -20,3 +20,9 @@ export const userList =  (state=[],action) =>
     action.type === C. UPDATE_ONLINE_LIST ? action.payload : state
 
 export const currentPage = (state = [], action) => action.type = C.SET_PAGE ? action.payload : state
+
+export default combineReducers({
+    messages,
+    userList,
+    currentPage
+})

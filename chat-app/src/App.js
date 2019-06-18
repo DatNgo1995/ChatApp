@@ -25,7 +25,7 @@ class App extends React.Component {
     this.socket.on("serverSendPost", mess => {
       this.setState({ chatMessage: [...this.state.chatMessage, mess] });
     });
-    this.socket.on("serverdDeletePost", id => {
+    this.socket.on("serverDeletePost", id => {
       let newState = this.state.chatMessage.filter(
         message => message.id !== id
       );

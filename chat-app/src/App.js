@@ -6,7 +6,8 @@ import socketIOClient from "socket.io-client";
 // eslint-disable-next-line
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-
+import { connect } from "net";
+import {emitUpdateMessage, emitDeleteMessage, setPage, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage}  from './actions';
 class App extends React.Component {
   constructor() {
     super();
@@ -101,4 +102,5 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(state => state,
+  {emitUpdateMessage, emitDeleteMessage, setPage, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage})(App)

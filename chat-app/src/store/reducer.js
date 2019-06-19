@@ -16,6 +16,8 @@ export const messages = (state=[],action) => {
                 return action.payload
     }
 }
+export const name =  (state=[],action) => 
+    action.type === C.SET_NAME ? action.payload : state
 export const userList =  (state=[],action) => 
     action.type === C. UPDATE_ONLINE_LIST ? action.payload : state
 
@@ -24,5 +26,6 @@ export const currentPage = (state = [], action) => action.type = C.SET_PAGE ? ac
 export default combineReducers({
     messages,
     userList,
+    name,
     currentPage
 })

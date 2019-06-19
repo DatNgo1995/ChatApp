@@ -1,4 +1,13 @@
 import C from './constants';
+// synchronous actions
+export const setPage = page => ({
+    type: C.SET_PAGE,
+    payload: page
+})
+export const setName = name => ({
+    type: C.SET_PAGE,
+    payload: name
+})
 
 //emit
 export const emitPostMessage = (message) => {
@@ -20,10 +29,6 @@ export const emitDeleteMessage = ( id) => {
     }
 }
 
-export const setPage = page => ({
-    type: C.SET_PAGE,
-    payload: page
-})
 //helpers for on
 export const postMessage =  message => ({
     type: C.POST_MESSAGE,

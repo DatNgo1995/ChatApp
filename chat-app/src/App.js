@@ -6,9 +6,10 @@ import socketIOClient from "socket.io-client";
 // eslint-disable-next-line
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-import { connect } from "net";
-import {emitUpdateMessage, emitDeleteMessage, setPage, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage}  from './actions';
+import { connect } from "react-redux";
+import {emitPostMessage,emitUpdateMessage, emitDeleteMessage, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage}  from './actions';
 class App extends React.Component {
+  
   constructor() {
     super();
     this.state = {
@@ -19,7 +20,10 @@ class App extends React.Component {
       userList: []
     };
   }
-
+  componentDidMount () {
+    this.props.fetchMessage();
+  }
+  /*
   componentDidMount() {
     this.getDataFromDb();
     this.socket = socketIOClient(this.state.endpoint);
@@ -80,21 +84,23 @@ class App extends React.Component {
   deleteMessage = id => {
     this.socket.emit("deleteMessage", id);
   };
+  */
   render() {
+    console.log(this.props)
     return (
       <div className="App">
-        {this.state.currentPage === "sign-in" ? (
-          <SignIn moveToChatBox={this.moveToChatBox} setName={this.setName} />
+        {this.props.currentPage === "sign-in" ? (
+          <SignIn moveToChatBox={() => this.props.setPage("chat-box")} setName={this.props.setName}  />
         ) : (
           <div className="row">
             <ChatBox
-              name={this.state.name}
-              chatMessage={this.state.chatMessage}
-              updateChatMessage={this.updateChatMessage}
-              deleteMessage={this.deleteMessage}
-              editMessage={this.editMessage}
+              name={this.props.name}
+              chatMessage={this.props.messages}
+              updateChatMessage={this.props.emitPostMessage}
+              deleteMessage={this.props.emitDeleteMessage}
+              editMessage={this.props.emitUpdateMessage}
             />
-            <OnlineUser userList={this.state.userList} />
+            <OnlineUser userList={this.props.userList} />
           </div>
         )}
       </div>
@@ -102,5 +108,10 @@ class App extends React.Component {
   }
 }
 
-export default connect(state => state,
-  {emitUpdateMessage, emitDeleteMessage, setPage, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage})(App)
+export default connect(state => ({
+  name: state.name,
+  messages: state.messages,
+  currentPage: state.currentPage,
+  userList: state.userList
+}),
+  {emitPostMessage,emitUpdateMessage, emitDeleteMessage, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage})(App)

@@ -5,29 +5,31 @@ export const setPage = page => ({
     payload: page
 })
 export const setName = name => ({
-    type: C.SET_PAGE,
+    type: C.SET_NAME,
     payload: name
 })
 
 //emit
-export const emitPostMessage = (message) => {
-    return socket => {
-        socket.emit("postMessage", message);
-    }
-}
+export const emitPostMessage = (message) => 
+   ({
+        type: "emit",
+        event: "postMessage",
+        message: message
+    })
+
     
 
-export const emitUpdateMessage = ( message) => {
-    return socket => {
-        socket.emit("editMessage", message);
-    }
-}
+export const emitUpdateMessage = ( message) => ({
+    type: "emit",
+    event: "editMessage",
+    message: message
+})
 
-export const emitDeleteMessage = ( id) => {
-    return socket => {
-        socket.emit("deleteMessage", id);
-    }
-}
+export const emitDeleteMessage = ( id) => ({
+    type: "emit",
+    event: "deleteMessage",
+    message: id
+})
 
 //helpers for on
 export const postMessage =  message => ({

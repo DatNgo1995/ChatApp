@@ -60,32 +60,7 @@ export const onlineList = list => ({
 })
 
 */
-//on
 
-export const onPostMessage = message => ({
-  wsType: "on",
-  type: C.POST_MESSAGE,
-  event: "serverSendPost",
-  payload: message
-});
-export const onDeleteMessage = id => ({
-  wsType: "on",
-  type: C.DELETE_MESSAGE,
-  event: "serverDeletePost",
-  payload: id
-});
-export const onEditMessage = message => ({
-  wsType: "on",
-  type: C.UPDATE_MESSAGE,
-  event: "serverEditMessage",
-  payload: message
-});
-export const onUpdateOnline = list => ({
-  wsType: "on",
-  type: C.UPDATE_ONLINE_LIST,
-  event: "updateOnline",
-  payload: list
-});
 
 //load innitial data
 export const fetchMessage = () => {

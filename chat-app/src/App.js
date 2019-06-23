@@ -2,12 +2,11 @@ import React from "react";
 import { ChatBox } from "./components/ChatBox";
 import { OnlineUser } from "./components/OnlineUser";
 import SignIn from "./components/SignIn";
-import socketIOClient from "socket.io-client";
 // eslint-disable-next-line
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { connect } from "react-redux";
-import {emitPostMessage,emitUpdateMessage, emitDeleteMessage,emitOnline, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage}  from './actions';
+import {emitPostMessage,emitUpdateMessage, emitDeleteMessage,emitOnline, setPage,setName,fetchMessage}  from './actions';
 class App extends React.Component {
   
   constructor() {
@@ -109,4 +108,4 @@ export default connect(state => ({
   currentPage: state.currentPage,
   userList: state.userList
 }),
-  {emitPostMessage,emitUpdateMessage, emitDeleteMessage,emitOnline, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage})(App)
+  {emitPostMessage,emitUpdateMessage, emitDeleteMessage,emitOnline, setPage,setName, fetchMessage})(App)

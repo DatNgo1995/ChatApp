@@ -7,7 +7,7 @@ import socketIOClient from "socket.io-client";
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { connect } from "react-redux";
-import {emitPostMessage,emitUpdateMessage, emitDeleteMessage, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage}  from './actions';
+import {emitPostMessage,emitUpdateMessage, emitDeleteMessage,emitOnline, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage}  from './actions';
 class App extends React.Component {
   
   constructor() {
@@ -23,6 +23,19 @@ class App extends React.Component {
   componentDidMount () {
     this.props.fetchMessage();
   }
+  updateChatMessage = newMessage => {
+ 
+    let newContent = {
+      name: this.props.name,
+      date: new Date().toISOString(),
+      content: newMessage[0].toUpperCase() + newMessage.slice(1)
+    };
+    this.props.emitPostMessage(newContent);
+  };
+  moveToChatBox = () => {
+    this.props.emitOnline(this.props.name);
+    this.props.setPage("chat-box");
+  };
   /*
   componentDidMount() {
     this.getDataFromDb();
@@ -54,30 +67,13 @@ class App extends React.Component {
       });
     });
   }
-  moveToChatBox = () => {
-    this.socket.emit("online", this.state.name);
-    this.setState({ currentPage: "chat-box" });
-  };
+
   setName = name => {
     this.setState({ name: name[0].toUpperCase() + name.slice(1) });
   };
-  updateChatMessage = newMessage => {
  
-    let newContent = {
-      name: this.state.name,
-      date: new Date().toISOString(),
-      content: newMessage[0].toUpperCase() + newMessage.slice(1)
-    };
-    this.postMessage(newContent);
-  };
-  getDataFromDb = () => {
-    fetch("/getData")
-      .then(data => data.json())
-      .then(res => this.setState({ chatMessage: res }));
-  };
-  postMessage = message => {
-    this.socket.emit("postMessage", message);
-  };
+
+
   editMessage = message => {
     this.socket.emit("editMessage", message);
   };
@@ -86,17 +82,16 @@ class App extends React.Component {
   };
   */
   render() {
-    console.log(this.props)
     return (
       <div className="App">
         {this.props.currentPage === "sign-in" ? (
-          <SignIn moveToChatBox={() => this.props.setPage("chat-box")} setName={this.props.setName}  />
+          <SignIn moveToChatBox={this.moveToChatBox} setName={this.props.setName}  />
         ) : (
           <div className="row">
             <ChatBox
               name={this.props.name}
               chatMessage={this.props.messages}
-              updateChatMessage={this.props.emitPostMessage}
+              updateChatMessage={this.updateChatMessage}
               deleteMessage={this.props.emitDeleteMessage}
               editMessage={this.props.emitUpdateMessage}
             />
@@ -114,4 +109,4 @@ export default connect(state => ({
   currentPage: state.currentPage,
   userList: state.userList
 }),
-  {emitPostMessage,emitUpdateMessage, emitDeleteMessage, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage})(App)
+  {emitPostMessage,emitUpdateMessage, emitDeleteMessage,emitOnline, setPage,setName, onPostMessage, onDeleteMessage,onEditMessage, onUpdateOnline,fetchMessage})(App)

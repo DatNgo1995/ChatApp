@@ -56,7 +56,7 @@ io.on("connection", socket => {
       .collection("users")
       .find()
       .toArray());
-    io.emit("updateOnline", onlineList);
+    io.emit("updateOnline", onlineList );
   });
   socket.on("disconnect", async () => {
     console.log("user disconnected");
@@ -93,7 +93,7 @@ io.on("connection", socket => {
   });
   socket.on("deleteMessage", async id => {
     await dbAction(mdb => mdb.collection("chat-message").deleteOne({ id }));
-    io.emit("serverdDeletePost", id);
+    io.emit("serverDeletePost", id);
   });
   
 });

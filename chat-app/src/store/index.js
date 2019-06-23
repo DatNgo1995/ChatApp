@@ -6,6 +6,6 @@ import createSocketMiddleware from './socketMiddleware.js'
 import { createStore, applyMiddleware } from 'redux'
 const socketMiddleware = createSocketMiddleware(socketIOClient.connect('/'));
 export default (initialState={}) => {
-	return applyMiddleware(thunk,socketMiddleware)(createStore)(appReducer, initialState)
+	return applyMiddleware(socketMiddleware,thunk)(createStore)(appReducer, initialState)
 }
 

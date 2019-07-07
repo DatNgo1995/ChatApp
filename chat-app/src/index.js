@@ -1,22 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import storeFactory from './store'
-import { Provider } from 'react-redux'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import storeFactory from "./store";
+import { Provider } from "react-redux";
 const store = storeFactory({
-    currentPage: "sign-in",
-    name: "",
-    messages: [],
-    userList: []
-})
+  currentPage: "sign-in",
+  name: "",
+  messages: [],
+  userList: []
+});
 ReactDOM.render(
-<Provider store={store}>
-<App />
-	</Provider>
+  <Provider store={store}>
+    <App />
+  </Provider>,
 
-, document.getElementById('root'));
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

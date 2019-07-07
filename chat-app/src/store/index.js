@@ -1,4 +1,3 @@
-import C from '../constants'
 import appReducer from './reducer'
 import socketIOClient from "socket.io-client";
 import thunk from 'redux-thunk'

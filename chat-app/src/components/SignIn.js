@@ -1,21 +1,20 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-
+import { setPage, emitOnline, setName } from "../actions";
+import { connect } from "react-redux";
 class SignIn extends Component {
   state = {
     error: ""
-  }
-  onSubmit = async (e) => {
+  };
+  onSubmit = async e => {
     e.preventDefault();
-    if(this.name.value !== ""){
+    if (this.name.value !== "") {
       await this.props.setName(this.name.value);
-      this.props.moveToChatBox();
+      this.props.emitOnline(this.props.name);
+      this.props.setPage("chat-box");
+    } else {
+      this.setState({ error: "Name cannot be empty!" });
     }
-    else {
-      this.setState({error: "Name cannot be empty!"})
-    }
-    
-    
   };
   render() {
     return (
@@ -36,4 +35,7 @@ class SignIn extends Component {
     );
   }
 }
-export default SignIn;
+export default connect(
+  state => state,
+  { setPage, emitOnline, setName }
+)(SignIn);

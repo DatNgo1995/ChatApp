@@ -12,7 +12,7 @@ export default function createSocketMiddleware(socket) {
         { type: C.UPDATE_MESSAGE, event: "serverEditMessage" },
         { type: C.UPDATE_ONLINE_LIST, event: "updateOnline" }
       ];
-      events.map(event => {
+      events.forEach(event => {
         socket.on(event.event, message => {
           store.dispatch({
             ...event,

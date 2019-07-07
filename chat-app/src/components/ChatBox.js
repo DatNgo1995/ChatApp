@@ -1,23 +1,32 @@
 import React from "react";
 import ChatMessage from "./ChatMessage";
 import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
-export class ChatBox extends React.Component {
+import { connect } from "react-redux";
+import { emitPostMessage } from "../actions";
+class ChatBox extends React.Component {
   onSubmit = e => {
     e.preventDefault();
-    if (this.message.value) this.props.updateChatMessage(this.message.value);
+
+    if (this.message.value) {
+      let newContent = {
+        name: this.props.name,
+        date: new Date().toISOString(),
+        content:
+          this.message.value[0].toUpperCase() + this.message.value.slice(1)
+      };
+      this.props.emitPostMessage(newContent);
+    }
     e.target[0].value = "";
   };
   render() {
     return (
       <div className="chat-box col-8">
         <div className="messages m-5 d-flex flex-column">
-          {this.props.chatMessage.map((message, i) => (
+          {this.props.messages.map((message, i) => (
             <ChatMessage
               key={i}
               isUserMessage={this.props.name === message.name}
               {...message}
-              deleteMessage={this.props.deleteMessage}
-              editMessage = {this.props.editMessage}
             />
           ))}
         </div>
@@ -39,3 +48,7 @@ export class ChatBox extends React.Component {
     );
   }
 }
+export default connect(
+  state => state,
+  { emitPostMessage }
+)(ChatBox);

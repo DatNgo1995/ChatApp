@@ -30,7 +30,7 @@ class App extends React.Component {
         ) : (
           <div className="row">
             <ChatBox />
-            <OnlineUser userList={this.props.userList} />
+            <OnlineUser />
           </div>
         )}
       </div>

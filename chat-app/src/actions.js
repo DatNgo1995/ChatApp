@@ -12,55 +12,27 @@ export const setName = name => ({
 //emit
 export const emitPostMessage = message => ({
   type: "emit",
-  wsType: "emit",
   event: "postMessage",
   message: message
 });
 
 export const emitOnline = name => ({
   type: "emit",
-  wsType: "emit",
   event: "online",
   message: name
 });
 
 export const emitUpdateMessage = message => ({
   type: "emit",
-  wsType: "emit",
   event: "editMessage",
   message: message
 });
 
 export const emitDeleteMessage = id => ({
   type: "emit",
-  wsType: "emit",
   event: "deleteMessage",
   message: id
 });
-
-//helpers for on
-/*
-export const postMessage =  message => ({
-    type: C.POST_MESSAGE,
-    payload: message
-})
-
-export const updateMessage =  message => ({
-    type: C.UPDATE_MESSAGE,
-    payload: message
-})
-
-export const deleteMessage =  id => ({
-    type: C.DELETE_MESSAGE,
-    payload: id
-})
-export const onlineList = list => ({
-    type: C.ONLINE_LIST,
-    payload: list
-})
-
-*/
-
 
 //load innitial data
 export const fetchMessage = () => {

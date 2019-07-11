@@ -1,9 +1,10 @@
 const express = require("express");
-const dbAction = require("./dbConnect")
+const dbAction = require("./dbConnect").dbAction
+let mdb = null;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
-const router = require("./router");
+
 const socketIo = require("socket.io");
 const server = express();
 const ioServer = require("http").createServer(server);
@@ -26,77 +27,95 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-server.use("/", router);
+
 
 io.on("connection", socket => {
   console.log("user connected");
   let name = null;
   socket.on("online", async newUserName => {
     name = newUserName;
-    const  userList = await dbAction(mdb => mdb
+    const  userList = await mdb
       .collection("users")
       .find()
-      .toArray());
+      .toArray();
       const  isNewUser = !userList.some(users => users.user === newUserName);
     if (isNewUser)
-      await dbAction(mdb => mdb.collection("users").insertOne({
+      await mdb.collection("users").insertOne({
         user: name,
         status: "online"
-      }) );
+      }) 
     else
-      await dbAction(mdb => mdb.collection("users").updateOne(
+      await  mdb.collection("users").updateOne(
         { user: newUserName },
         {
           $set: {
             status: "online"
           }
         }
-      ));
-      const  onlineList = await dbAction(mdb => mdb
+      )
+      const  onlineList =  await mdb
       .collection("users")
       .find()
-      .toArray());
+      .toArray()
     io.emit("updateOnline", onlineList );
   });
   socket.on("disconnect", async () => {
     console.log("user disconnected");
-    await dbAction(mdb => mdb.collection("users").updateOne(
+    await  mdb.collection("users").updateOne(
       { user: name },
       {
         $set: {
           status: "offline"
         }
       }
-    ));
-    let onlineList = await dbAction(mdb => mdb
+    )
+    let onlineList = await mdb
       .collection("users")
       .find()
-      .toArray());
+      .toArray()
     socket.emit("updateOnline", onlineList);
   });
   socket.on("postMessage", async message => {
+    console.log("postMessage", message)
     const uuidv1 = require('uuid/v1')();
 
-    await dbAction(mdb => mdb.collection("chat-message").insertOne({...message, id: uuidv1}));
+    await  mdb.collection("chat-message").insertOne({...message, id: uuidv1})
     io.emit("serverSendPost", message);
   });
   socket.on("editMessage", async message => {
-    await dbAction(mdb => mdb.collection("chat-message").updateOne(
+    console.log("editMessage",message)
+    await mdb.collection("chat-message").updateOne(
       { id: message.id },
       {
         $set: {
           content: message.content
         }
       }
-    ));
+    )
     io.emit("serverEditMessage", message)
   });
   socket.on("deleteMessage", async id => {
-    await dbAction(mdb => mdb.collection("chat-message").deleteOne({ id }));
+    await mdb.collection("chat-message").deleteOne({ id })
     io.emit("serverDeletePost", id);
   });
   
 });
-ioServer.listen(port, () =>
-  console.log("Server connected with IO Socket available")
-);
+
+(async () => {
+  
+  mdb = await require("./dbConnect").connectDB()
+  const router = await require("./router")();
+  server.use("/", router);
+  ioServer.listen(port, () =>
+  console.log("Server connected with IO Socket available"))
+}
+ 
+)();
+  
+
+
+
+
+
+
+  

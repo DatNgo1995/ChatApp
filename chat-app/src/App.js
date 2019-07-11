@@ -1,6 +1,6 @@
 import React from "react";
 import ChatBox from "./components/ChatBox";
-import { OnlineUser } from "./components/OnlineUser";
+import  OnlineUser  from "./components/OnlineUser";
 import SignIn from "./components/SignIn";
 // eslint-disable-next-line
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
@@ -8,16 +8,7 @@ import "./App.css";
 import { connect } from "react-redux";
 import { fetchMessage } from "./actions";
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      endpoint: "/",
-      currentPage: "sign-in",
-      name: "",
-      chatMessage: [],
-      userList: []
-    };
-  }
+ 
   componentDidMount() {
     this.props.fetchMessage();
   }

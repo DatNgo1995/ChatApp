@@ -22,13 +22,7 @@ class ChatBox extends React.Component {
     return (
       <div className="chat-box col-8">
         <div className="messages m-5 d-flex flex-column">
-          {this.props.messages.map((message, i) => (
-            <ChatMessage
-              key={i}
-              isUserMessage={this.props.name === message.name}
-              {...message}
-            />
-          ))}
+          <ChatMessage />
         </div>
         <Form onSubmit={e => this.onSubmit(e)} className="chat-input m-5">
           <InputGroup>

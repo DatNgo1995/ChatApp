@@ -2,7 +2,7 @@ import C from "../constants";
 
 export default function createSocketMiddleware(socket) {
   return store => next => action => {
-    if (action.wsType === "emit") {
+    if (action.type === "emit") {
       socket.emit(action.event, action.message);
     }
     if (action.type === C.SET_PAGE) {

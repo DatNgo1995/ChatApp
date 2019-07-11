@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-export class OnlineUser extends Component {
+class OnlineUser extends Component {
   render() {
     return (
       <div className="chat-message col-4 mt-5">

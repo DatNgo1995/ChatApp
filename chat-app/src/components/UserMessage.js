@@ -8,7 +8,6 @@ const UserMessage = ({id, messages, emitDeleteMessage, emitUpdateMessage}) => {
   let mess = useRef(null);
   const onSubmit = (e, id) => {
     e.preventDefault();
-    console.log(id, mess.current.value)
     emitUpdateMessage({ id: id, content: mess.current.value });
     setMode(false);
   };

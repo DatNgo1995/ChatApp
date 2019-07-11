@@ -1,5 +1,4 @@
 const express = require("express");
-const dbAction = require("./dbConnect").dbAction;
 let mdb = null;
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -77,7 +76,7 @@ io.on("connection", socket => {
     const uuidv1 = require("uuid/v1")();
 
     await mdb.collection("chat-message").insertOne({ ...message, id: uuidv1 });
-    io.emit("serverSendPost", message);
+    io.emit("serverSendPost",{ ...message, id: uuidv1 });
   });
   socket.on("editMessage", async message => {
     console.log("editMessage", message);

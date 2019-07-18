@@ -35,9 +35,9 @@ export const emitDeleteMessage = id => ({
 });
 
 //load innitial data
-export const fetchMessage = () => {
+export const fetchMessage = (limit) => {
   return dispatch => {
-    fetch("/getData")
+    fetch("/getData/"+limit)
       .then(data => data.json())
       .then(res => dispatch(loadMessage(res)));
   };
@@ -46,3 +46,6 @@ export const loadMessage = messages => ({
   type: C.GET_MESSAGE,
   payload: messages
 });
+export const loadOldMessage = () => ({
+  type: C.LOAD_OLD_MESSAGE
+})

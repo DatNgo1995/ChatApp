@@ -35,7 +35,7 @@ export const emitDeleteMessage = id => ({
 });
 
 //load innitial data
-export const fetchMessage = (limit) => {
+export const fetchMessage = (limit = 15) => {
   return dispatch => {
     fetch("/getData/"+limit)
       .then(data => data.json())

@@ -30,3 +30,8 @@
   font-size: 0.8rem;
   color: #7d7d7d;
 }
+.messages {
+  max-height: 80vh;
+  position: relative;
+  overflow-y: scroll;
+}

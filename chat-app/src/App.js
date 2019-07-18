@@ -10,7 +10,7 @@ import { fetchMessage } from "./actions";
 class App extends React.Component {
  
   componentDidMount() {
-    this.props.fetchMessage();
+    this.props.fetchMessage(15);
   }
 
   render() {

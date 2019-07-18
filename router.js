@@ -12,5 +12,12 @@ module.exports = router = async () => {
       .toArray();
     res.send(content);
   });
+  router.get("/getData/:start", async (req, res) => {
+    const content = await mdb
+    .collection("chat-message")
+    .find().sort({ $natural: -1 }).limit(Number(req.params.start))
+    .toArray();
+  res.send(content.reverse());
+  });
   return router;
 };

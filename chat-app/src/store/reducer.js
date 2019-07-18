@@ -18,6 +18,10 @@ export const messages = (state=[],action) => {
         default: return state
     }
 }
+export const limit = (state = 15, action) => {
+    if (action.type ===C.LOAD_OLD_MESSAGE) return state + 10
+    return state
+}
 export const name =  (state=[],action) => 
     action.type === C.SET_NAME ? action.payload : state
 export const userList =  (state=[],action) => 
@@ -29,5 +33,6 @@ export default combineReducers({
     messages,
     userList,
     name,
-    currentPage
+    currentPage,
+    limit
 })

@@ -21,9 +21,7 @@ class ChatBox extends React.Component {
   render() {
     return (
       <div className="chat-box col-8">
-        <div className="messages m-5 d-flex flex-column">
-          <ChatMessage />
-        </div>
+        <ChatMessage />
         <Form onSubmit={e => this.onSubmit(e)} className="chat-input m-5">
           <InputGroup>
             <FormControl

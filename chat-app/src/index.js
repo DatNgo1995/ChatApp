@@ -7,6 +7,7 @@ import storeFactory from "./store";
 import { Provider } from "react-redux";
 const store = storeFactory({
   currentPage: "sign-in",
+  limit: 15,
   name: "",
   messages: [],
   userList: []

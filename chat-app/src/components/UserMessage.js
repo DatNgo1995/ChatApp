@@ -16,7 +16,7 @@ const UserMessage = ({id, messages, emitDeleteMessage, emitUpdateMessage}) => {
   return mode ? (
     <Form
       onSubmit={e => onSubmit(e, message.id)}
-      className="chat-message align-self-end mb-3"
+      className="chat-message align-self-end m-3"
     >
       <InputGroup>
         <FormControl defaultValue={message.content} type="text" ref={mess} />
@@ -29,7 +29,7 @@ const UserMessage = ({id, messages, emitDeleteMessage, emitUpdateMessage}) => {
       </InputGroup>
     </Form>
   ) : (
-    <div className="chat-message d-flex flex-column align-self-end d-block mb-3">
+    <div className="chat-message d-flex flex-column align-self-end d-block m-3">
       {message.content}
       <div className="align-self-end edit-content">
         <span className="message-date">{message.date}</span>

@@ -3,6 +3,7 @@ import ChatMessage from "./ChatMessage";
 import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
 import { connect } from "react-redux";
 import { emitPostMessage } from "../actions";
+
 class ChatBox extends React.Component {
   onSubmit = e => {
     e.preventDefault();

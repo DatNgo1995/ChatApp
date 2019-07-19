@@ -7,6 +7,7 @@ import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { connect } from "react-redux";
 import { fetchMessage } from "./actions";
+import { BrowserRouter, Switch, Route,  Redirect} from 'react-router-dom'
 class App extends React.Component {
  
   componentDidMount() {
@@ -16,14 +17,24 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {this.props.currentPage === "sign-in" ? (
-          <SignIn />
-        ) : (
-          <div className="row">
+
+        <BrowserRouter> 
+          <Switch>
+          <Route path="/login" render = { () => 
+          this.props.currentPage ==="chat-box"? <Redirect to="/" />:<SignIn />} />
+          <Route path="/" render = { () => 
+            this.props.currentPage ==="chat-box" ?
+            <div className="row">
             <ChatBox />
             <OnlineUser />
           </div>
-        )}
+          : <Redirect to="/login" />
+          } />
+          
+          </Switch>
+        </BrowserRouter>
+         
+       
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { setPage, emitOnline, setName } from "../actions";
 import { connect } from "react-redux";
+import {Redirect} from 'react-router-dom'
 class SignIn extends Component {
   state = {
     error: ""
@@ -10,14 +11,16 @@ class SignIn extends Component {
     e.preventDefault();
     if (this.name.value !== "") {
       await this.props.setName(this.name.value);
-      this.props.emitOnline(this.props.name);
-      this.props.setPage("chat-box");
+      await this.props.emitOnline(this.props.name);
+      await this.props.setPage("chat-box");
+      
     } else {
       this.setState({ error: "Name cannot be empty!" });
     }
   };
   render() {
     return (
+      <>
       <Form className="sign-in mt-5" onSubmit={e => this.onSubmit(e)}>
         <Form.Group>
           <Form.Label className="float-left">Enter name:</Form.Label>
@@ -32,6 +35,8 @@ class SignIn extends Component {
           Enter Chat
         </Button>
       </Form>
+      {this.props.currentPage === "chat-box" ?<Redirect to='/' /> : null}
+      </>
     );
   }
 }
